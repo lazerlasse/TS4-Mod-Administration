@@ -1,0 +1,39 @@
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\TS4-Mod-Administration.exe.config
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\TS4-Mod-Administration.exe
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\TS4-Mod-Administration.pdb
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Interfaces.dll
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Package.dll
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Settings.dll
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csprojAssemblyReference.cache
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\MainWindow.g.cs
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\App.g.cs
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration_MarkupCompile.cache
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration_MarkupCompile.lref
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\MainWindow.baml
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.g.resources
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4_Mod_Administration.Properties.Resources.resources
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csproj.GenerateResource.cache
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csproj.CoreCompileInputs.cache
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csproj.CopyComplete
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.exe
+C:\OneDrive\Programmering - Privat\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.pdb
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\TS4-Mod-Administration.exe.config
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\TS4-Mod-Administration.exe
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\TS4-Mod-Administration.pdb
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Interfaces.dll
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Package.dll
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Settings.dll
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\SharpCompress.dll
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csprojAssemblyReference.cache
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\MainWindow.g.cs
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\App.g.cs
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration_MarkupCompile.cache
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration_MarkupCompile.lref
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\MainWindow.baml
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.g.resources
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4_Mod_Administration.Properties.Resources.resources
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csproj.GenerateResource.cache
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csproj.CoreCompileInputs.cache
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csproj.CopyComplete
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.exe
+C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.pdb
