@@ -9,30 +9,18 @@ namespace TS4_Mod_Administration
 {
 	class ModsImport
 	{
-		private string modsFolderPath;
-		private List<FileInfo> moveFileErrorList;
+		private int modsAmountToImport;
+		private int modsAmountImported;
 
-		public string ModsFolderPath
+		public int ModsAmountToImport
 		{
 			private get
 			{
-				return this.modsFolderPath;
+				return this.modsAmountToImport;
 			}
 			set
 			{
-				this.modsFolderPath = value;
-			}
-		}
-
-		public List<FileInfo> MoveFileErrorList
-		{
-			get
-			{
-				return this.moveFileErrorList;
-			}
-			private set
-			{
-				this.moveFileErrorList = value;
+				this.modsAmountToImport = value;
 			}
 		}
 
@@ -41,20 +29,16 @@ namespace TS4_Mod_Administration
 
 		}
 
-		public void ClearFileErrorList()
-		{
-			MoveFileErrorList.Clear();
-		}
-
-		public string ImportMods(List<FileInfo> filesToImport)
+		public void ImportMods()
 		{
 			// Remove files to the game folder...
 			try
 			{
-				foreach (var Mod in filesToImport)
+				ModsIndexer
+				foreach (FileInfo modFile in filesToImport)
 				{
 					// Check if file already exist on destination...
-					if (File.Exists(ModsFolderPath + Mod.Name))
+					if (File.Exists(ModsFolderPath + modFile.Name))
 					{
 						File.Delete(ModsFolderPath + Mod.Name);
 					}
@@ -68,13 +52,11 @@ namespace TS4_Mod_Administration
 						MoveFileErrorList.Add(Mod);
 					}
 				}
-
-				return "Import af mods blev gennemført.";
 			}
 
 			catch (Exception ex)
 			{
-				return ex.Message;
+				throw ex;
 			}
 		}
 	}
