@@ -18,7 +18,7 @@ namespace TS4_Mod_Administration
 			InitializeComponent();
 			ConflictSourcePatch.Text = modsFolderPath;
 		}
-
+         
 		#region Import Buttons
 
 		// Start importing mods button click event...
