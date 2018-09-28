@@ -7,71 +7,111 @@ using System.Threading.Tasks;
 
 namespace TS4_Mod_Administration
 {
-	class ModsIndexer
+	public sealed class ModsIndexer
 	{
-		#region Attribute Section
+		private static readonly ModsIndexer modsIndexerInstance = new ModsIndexer();
+		private int filesAddedCounter;
+		private List<FileInfo> modFilesList;
+		private List<FileInfo> trayModsFilesList;
+		private List<FileInfo> ts4SciptModsFilesList;
+		private List<FileInfo> archiveFilesList;
+		private List<FileInfo> notAcceptedFilesList;
 
-		private List<FileInfo> ts4ModsList;
-		private List<FileInfo> ts4TrayModsList;
-		private List<FileInfo> ts4SciptModsList;
-		private int modsAddedCount;
+		static ModsIndexer()
+		{
 
-		public List<FileInfo> Ts4ModsList
+		}
+
+		private ModsIndexer()
+		{
+			ModFilesList = new List<FileInfo>();
+			TrayModsFilesList = new List<FileInfo>();
+			Ts4ScriptModsFilesList = new List<FileInfo>();
+			ArchiveFilesList = new List<FileInfo>();
+			NotAcceptedFilesList = new List<FileInfo>();
+		}
+
+		public static ModsIndexer ModsIndexerInstance
 		{
 			get
 			{
-				return this.ts4ModsList;
-			}
-			private set
-			{
-				this.ts4ModsList = value;
+				return modsIndexerInstance;
 			}
 		}
 
-		public List<FileInfo> Ts4TrayModsList
+		public int FilesAddedCounter
 		{
 			get
 			{
-				return this.ts4TrayModsList;
+				return this.filesAddedCounter;
 			}
 			private set
 			{
-				this.ts4TrayModsList = value;
+				this.filesAddedCounter = value;
 			}
 		}
 
-		public List<FileInfo> Ts4ScriptModsList
+		public List<FileInfo> ModFilesList
 		{
 			get
 			{
-				return this.ts4SciptModsList;
+				return this.modFilesList;
 			}
 			private set
 			{
-				this.ts4SciptModsList = value;
+				this.modFilesList = value;
 			}
 		}
 
-		public int ModsAddedCount
+		public List<FileInfo> TrayModsFilesList
 		{
 			get
 			{
-				return this.modsAddedCount;
+				return this.trayModsFilesList;
 			}
 			private set
 			{
-				this.modsAddedCount = value;
+				this.trayModsFilesList = value;
+			}
+		}
+        // Anders har en kæmpe tissemand!
+		public List<FileInfo> Ts4ScriptModsFilesList
+		{
+			get
+			{
+				return this.ts4SciptModsFilesList;
+			}
+			private set
+			{
+				this.ts4SciptModsFilesList = value;
 			}
 		}
 
-		#endregion Attribute Section
-
-		public ModsIndexer()
+		public List<FileInfo> ArchiveFilesList
 		{
-			Ts4ModsList = new List<FileInfo>();
-			Ts4TrayModsList = new List<FileInfo>();
-			Ts4ScriptModsList = new List<FileInfo>();
+			get
+			{
+				return this.archiveFilesList;
+			}
+			private set
+			{
+				this.archiveFilesList = value;
+			}
 		}
+
+		public List<FileInfo> NotAcceptedFilesList
+		{
+			get
+			{
+				return this.notAcceptedFilesList;
+			}
+			private set
+			{
+				this.notAcceptedFilesList = value;
+			}
+		}
+
+
 
 		public void IndexFilesToImport(string sourcePath)
 		{
@@ -88,28 +128,34 @@ namespace TS4_Mod_Administration
 						// Add Mods files...
 						if (file.Extension == ".sims3pack" || file.Extension == ".package")
 						{
-							Ts4ModsList.Add(file);
+							ModFilesList.Add(file);
 						}
 
 						// Add TS4 Script files...
 						else if (file.Extension == ".ts4script")
 						{
-							Ts4ScriptModsList.Add(file);
+							Ts4ScriptModsFilesList.Add(file);
 						}
 
 						// Add mod files to Tray folder...
 						else if (file.Extension == ".blueprint" || file.Extension == ".bpi" || file.Extension == ".trayitem")
 						{
-							Ts4TrayModsList.Add(file);
+							TrayModsFilesList.Add(file);
+						}
+
+						// Add archive files...
+						else if (file.Extension == ".zip" || file.Extension == ".rar")
+						{
+							ArchiveFilesList.Add(file);
 						}
 
 						// Add alle non *Sims files...
 						else
 						{
-
+							NotAcceptedFilesList.Add(file);
 						}
 						
-						ModsAddedCount++;
+						FilesAddedCounter++;
 					}
 				}
 			}
