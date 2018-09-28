@@ -14,6 +14,7 @@ namespace TS4_Mod_Administration
 		private List<FileInfo> ts4ModsList;
 		private List<FileInfo> ts4TrayModsList;
 		private List<FileInfo> ts4SciptModsList;
+		private List<FileInfo> nonModsFiles;
 		private int modsAddedCount;
 
 		public List<FileInfo> Ts4ModsList
@@ -52,6 +53,18 @@ namespace TS4_Mod_Administration
 			}
 		}
 
+		public List<FileInfo> NonModsFiles
+		{
+			get
+			{
+				return this.nonModsFiles;
+			}
+			private set
+			{
+				this.nonModsFiles = value;
+			}
+		}
+
 		public int ModsAddedCount
 		{
 			get
@@ -71,6 +84,7 @@ namespace TS4_Mod_Administration
 			Ts4ModsList = new List<FileInfo>();
 			Ts4TrayModsList = new List<FileInfo>();
 			Ts4ScriptModsList = new List<FileInfo>();
+			NonModsFiles = new List<FileInfo>();
 		}
 
 		public void IndexFilesToImport(string sourcePath)
