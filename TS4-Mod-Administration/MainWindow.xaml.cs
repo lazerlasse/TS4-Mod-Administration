@@ -9,17 +9,15 @@ namespace TS4_Mod_Administration
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private string modsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Electronic Arts\The Sims 4\Mods";
-		private bool modsFolderÉxist = false;
 		private string browsePath;
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			ConflictSourcePatch.Text = modsFolderPath;
+			ConflictSourcePatch.Text = SimsFolder.ModsFolderPath;
 		}
          
-		#region Import Buttons
+		#region Import Mods Section
 
 		// Start importing mods button click event...
 		private void ImportModsButton_Click(object sender, RoutedEventArgs e)
@@ -27,6 +25,7 @@ namespace TS4_Mod_Administration
 
 		}
 
+		// Import browse path button event handler...
 		private void ImportBrowseButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Create directory-browser dialog...
@@ -41,9 +40,18 @@ namespace TS4_Mod_Administration
 				ImportSourcePatch.Text = browsePath;
 				ImportModsButton.IsEnabled = true;
 			}
+
+			// Index and handle archived files before importing mods...
+			HandleArchiveFiles();
 		}
 
-		#endregion Import Buttons
+		// Index and handle archive files before import...
+		private void HandleArchiveFiles()
+		{
+
+		}
+
+		#endregion Import Mods Section
 
 		#region Conflict Detection Buttons
 
@@ -82,22 +90,5 @@ namespace TS4_Mod_Administration
 		}
 
 		#endregion Update GUI Text, Datagrid and Progressbar.
-
-		#region Validation section
-
-		private void CheckModsFolderExist()
-		{
-			if (Directory.Exists(modsFolderPath))
-			{
-				modsFolderÉxist = true;
-			}
-			else
-			{
-				modsFolderÉxist = false;
-				modsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			}
-		}
-
-		#endregion Validation section
 	}
 }

@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SimsFolder.cs" />
     <Compile Include="TGIBlock.cs" />
     <Compile Include="UncompressArchive.cs" />
     <Page Include="MainWindow.xaml">

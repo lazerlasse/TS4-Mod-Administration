@@ -9,19 +9,31 @@ namespace TS4_Mod_Administration
 {
 	class ModsImport
     {
-		
+		private List<FileInfo> moveFileErrorList;
 
-		public void ClearFileErrorList()
+		public List<FileInfo> MoveFileErrorList
 		{
-			MoveFileErrorList.Clear();
+			get
+			{
+				return this.moveFileErrorList;
+			}
+			private set
+			{
+				this.moveFileErrorList = value;
+			}
 		}
 
-		public void ImportMods(List<FileInfo> filesToImport)
+		public ModsImport()
 		{
-			// Remove files to the game folder...
+			MoveFileErrorList = new List<FileInfo>();
+		}
+
+		public void ImportMods(List<FileInfo> modFiles, List<FileInfo> trayFiles)
+		{
+			// Move mod files to the Mods folders...
 			try
 			{
-				foreach (var Mod in filesToImport)
+				foreach (FileInfo mod in modFiles)
 				{
 					// Check if file already exist on destination...
 					if (File.Exists(ModsFolderPath + Mod.Name))
