@@ -70,6 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="SimsFolder.cs" />
     <Compile Include="TGIBlock.cs" />
+    <Compile Include="TS4ProgressReporter.cs" />
     <Compile Include="UncompressArchive.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
