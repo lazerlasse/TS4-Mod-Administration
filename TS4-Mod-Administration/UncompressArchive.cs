@@ -32,7 +32,6 @@ namespace TS4_Mod_Administration
 		{
 			get
 			{
-				this.filesToUncompressCounter = FilesToUncompress.Count;
 				return this.filesToUncompressCounter;
 			}
 			private set
@@ -64,20 +63,9 @@ namespace TS4_Mod_Administration
 		#endregion Constructer Section
 
 		#region Method Section
-		
-		// Uncompress files in selected path...
-		public void UncompressFiles(string path)
-		{
-			IndexFilesToUncompress(path);
-
-			if (FilesToUncompressCounter != 0)
-			{
-				UncompressArchiveFiles();
-			}
-		}
 
 		// Check selected path for files to uncompress...
-		private void IndexFilesToUncompress(string sourcePath)
+		public void IndexFilesToUncompress(string sourcePath)
 		{
 			// Clear files list before scan...
 			FilesToUncompress.Clear();
@@ -96,14 +84,16 @@ namespace TS4_Mod_Administration
 				{
 					if ((file.Attributes & FileAttributes.Directory) != 0) continue;
 					{
+						// Add files to uncompress list and count files...
 						FilesToUncompress.Add(file);
+						FilesToUncompressCounter++;
 					}
 				}
 			}
 		}
 
 		// Uncompress archive files...
-		private void UncompressArchiveFiles()
+		public void UncompressArchiveFiles()
 		{
 			// Reset counter before uncompressing...
 			CurrentUncompressCounter = 0;
@@ -111,10 +101,9 @@ namespace TS4_Mod_Administration
 			// Run throgh the extensions and check for archive files...
 			try
 			{
+				// Run through the files and uncompress them...
 				foreach (var file in FilesToUncompress)
 				{
-					CurrentUncompressCounter++;
-
 					// Open selected archive to extract...
 					using (var archive = ArchiveFactory.Open(file.FullName))
 					{
@@ -127,6 +116,9 @@ namespace TS4_Mod_Administration
 							}
 						}
 					}
+
+					// Set the current counter for progress...
+					CurrentUncompressCounter++;
 				}
 			}
 
