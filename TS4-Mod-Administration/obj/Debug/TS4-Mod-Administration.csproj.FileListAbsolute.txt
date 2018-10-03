@@ -23,7 +23,6 @@ C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debu
 C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Interfaces.dll
 C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Package.dll
 C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\s4pi.Settings.dll
-C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\bin\Debug\SharpCompress.dll
 C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\TS4-Mod-Administration.csprojAssemblyReference.cache
 C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\MainWindow.g.cs
 C:\OneDrive\Programmering\TS4-Mod-Administration\TS4-Mod-Administration\obj\Debug\App.g.cs
