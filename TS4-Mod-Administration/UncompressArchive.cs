@@ -68,7 +68,7 @@ namespace TS4_Mod_Administration
 		// Uncompress files in selected path...
 		public void UncompressFiles(string path)
 		{
-			CheckForFilesToUncompress(path);
+			IndexFilesToUncompress(path);
 
 			if (FilesToUncompressCounter != 0)
 			{
@@ -77,7 +77,7 @@ namespace TS4_Mod_Administration
 		}
 
 		// Check selected path for files to uncompress...
-		private void CheckForFilesToUncompress(string sourcePath)
+		private void IndexFilesToUncompress(string sourcePath)
 		{
 			// Clear files list before scan...
 			FilesToUncompress.Clear();

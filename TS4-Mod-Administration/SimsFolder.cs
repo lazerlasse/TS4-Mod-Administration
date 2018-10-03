@@ -9,18 +9,36 @@ namespace TS4_Mod_Administration
 {
 	static class SimsFolder
 	{
-		public static readonly string ModsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Electronic Arts\The Sims 4\Mods\";
-		public static readonly string TrayFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Electronic Arts\The Sims 4\Tray\";
+		private static readonly string modsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Electronic Arts\The Sims 4\Mods\";
+		private static readonly string trayFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Electronic Arts\The Sims 4\Tray\";
 
-		public static bool CheckModsFolderExist()
+		public static string ModsFolderPath
 		{
-			if (Directory.Exists(ModsFolderPath))
+			get
 			{
-				return true;
+				if (Directory.Exists(modsFolderPath))
+				{
+					return modsFolderPath;
+				}
+				else
+				{
+					return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+				}
 			}
-			else
+		}
+
+		public static string TrayFolderPath
+		{
+			get
 			{
-				return false;
+				if (Directory.Exists(trayFolderPath))
+				{
+					return trayFolderPath;
+				}
+				else
+				{
+					return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+				}
 			}
 		}
 	}

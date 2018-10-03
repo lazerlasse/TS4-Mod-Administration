@@ -36,18 +36,18 @@ namespace TS4_Mod_Administration
 				foreach (FileInfo mod in modFiles)
 				{
 					// Check if file already exist on destination...
-					if (File.Exists(ModsFolderPath + Mod.Name))
+					if (File.Exists(SimsFolder.ModsFolderPath + mod.Name))
 					{
-						File.Delete(ModsFolderPath + Mod.Name);
+						File.Delete(SimsFolder.ModsFolderPath + mod.Name);
 					}
 
 					// Move file to destination path...
-					Mod.MoveTo(ModsFolderPath + Mod.Name);
+					mod.MoveTo(SimsFolder.ModsFolderPath + mod.Name);
 
-					// If file not moved add file to failed List...
-					if (!File.Exists(ModsFolderPath + Mod.Name))
+					// If file not moved add the file to failed List...
+					if (!File.Exists(SimsFolder.ModsFolderPath + mod.Name))
 					{
-						MoveFileErrorList.Add(Mod);
+						MoveFileErrorList.Add(mod);
 					}
 				}
 			}
