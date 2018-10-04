@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TS4_Mod_Administration
 {
-	class ProcessViewOutput
+	public class ProcessViewOutput
 	{
 		public string Package_Name { get; set; }
 		public string Package_Type { get; set; }

@@ -9,5 +9,7 @@ namespace TS4_Mod_Administration
 	public class TS4ProgressReporter
 	{
 		public int ProgressPercentage { get; set; } = 0;
+		public string StatusMessage { get; set; } = "Status:";
+		public ProcessViewOutput DataGridContent { get; set; } = new ProcessViewOutput();
 	}
 }

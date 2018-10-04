@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 
@@ -13,6 +15,7 @@ namespace TS4_Mod_Administration
 
 		// Attributes...
 		private string browsePath;
+		List<ProcessViewOutput> processViews = new List<ProcessViewOutput>();
 
 		// Initialize main window...
 		public MainWindow()
@@ -34,6 +37,9 @@ namespace TS4_Mod_Administration
 		// Import browse path button event handler...
 		private void ImportBrowseButton_Click(object sender, RoutedEventArgs e)
 		{
+			// Clear DataGrid...
+			processViews.Clear();
+
 			// Create directory-browser dialog...
 			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
 			System.Windows.Forms.DialogResult result = dialog.ShowDialog();
@@ -65,13 +71,16 @@ namespace TS4_Mod_Administration
 				foreach (FileInfo file in uncompress.FilesToUncompress)
 				{
 					// Create DataGrid output...
-					UpdateImportDataGridView(new ProcessViewOutput
+					processViews.Add(new ProcessViewOutput
 					{
 						Package_Name = file.Name.Split('.')[0],
 						Package_Type = file.Extension,
 						Package_CreatedDate = file.CreationTime,
-						Package_EditedDate = file.LastWriteTime
+						Package_EditedDate = file.LastWriteTime,
 					});
+
+					// Update DataGrid...
+					UpdateImportDataGridView(processViews);
 				}
 
 				// Show messagebox and get answer...
@@ -122,9 +131,10 @@ namespace TS4_Mod_Administration
 		#region Update GUI Text, Datagrid and Progressbar.
 
 		// Update log viewer text.
-		private void UpdateImportDataGridView(ProcessViewOutput processOutput)
+		private void UpdateImportDataGridView(List<ProcessViewOutput> processOutput)
 		{
-			ModImportDataGrid.Items.Add(processOutput);
+			var bindingList = new BindingList<ProcessViewOutput>(processOutput);
+			ModImportDataGrid.ItemsSource = bindingList;
 		}
 
 		// Update ProgressBar1...
