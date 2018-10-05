@@ -58,8 +58,11 @@ namespace TS4_Mod_Administration
 		}
 
 		// Index and handle archive files before import...
-		private void HandleArchiveFiles()
+		private async void HandleArchiveFiles()
 		{
+			Progress<TS4ProgressReporter> progress = new Progress<TS4ProgressReporter>();
+			progress.ProgressChanged += ReportProgress;
+
 			// Index files to uncompress...
 			UncompressArchive uncompress = new UncompressArchive();
 			uncompress.IndexFilesToUncompress(browsePath);
@@ -97,7 +100,7 @@ namespace TS4_Mod_Administration
 					try
 					{
 						// Uncompress the files...
-						uncompress.UncompressArchiveFiles();
+						await uncompress.UncompressArchiveFiles(progress);
 					}
 					catch (Exception ex)
 					{
@@ -108,6 +111,12 @@ namespace TS4_Mod_Administration
 					MessageBox.Show("Filerne blev udpakket med succes.", "Færdig", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 			}
+		}
+
+		private void ReportProgress(object sender, TS4ProgressReporter e)
+		{
+			UpdateProgressBar1(e.ProgressPercentage);
+			UpdateProgressTextLabel(e.StatusMessage);
 		}
 
 		#endregion Import Mods Section

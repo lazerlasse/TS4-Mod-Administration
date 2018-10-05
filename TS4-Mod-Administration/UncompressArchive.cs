@@ -93,10 +93,13 @@ namespace TS4_Mod_Administration
 		}
 
 		// Uncompress archive files...
-		public void UncompressArchiveFiles()
+		public async Task UncompressArchiveFiles(IProgress<TS4ProgressReporter> progress)
 		{
 			// Reset counter before uncompressing...
 			CurrentUncompressCounter = 0;
+
+			// Report progress to GUI...
+			TS4ProgressReporter progressReporter = new TS4ProgressReporter();
 
 			// Run throgh the extensions and check for archive files...
 			try
@@ -104,8 +107,13 @@ namespace TS4_Mod_Administration
 				// Run through the files and uncompress them...
 				foreach (var file in FilesToUncompress)
 				{
+					
+					progressReporter.StatusMessage = "Udpakker: " + file.FullName;
+					progressReporter.ProgressPercentage = (CurrentUncompressCounter * 100) / FilesToUncompress.Count;
+					progress.Report(progressReporter);
+
 					// Open selected archive to extract...
-					using (var archive = ArchiveFactory.Open(file.FullName))
+					using (IArchive archive = await Task.Run(() => ArchiveFactory.Open(file.FullName)))
 					{
 						// Run throgh archive and extract files...
 						foreach (var entry in archive.Entries)
@@ -115,6 +123,8 @@ namespace TS4_Mod_Administration
 								entry.WriteToDirectory(file.DirectoryName + @"\", new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
 							}
 						}
+
+						System.Threading.Thread.Sleep(2000);
 					}
 
 					// Set the current counter for progress...
