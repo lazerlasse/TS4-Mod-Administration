@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace TS4_Mod_Administration
@@ -60,32 +61,18 @@ namespace TS4_Mod_Administration
 		// Index and handle archive files before import...
 		private async void HandleArchiveFiles()
 		{
+			// Create instance of Progress Reporter and Progress Change delegation...
 			Progress<TS4ProgressReporter> progress = new Progress<TS4ProgressReporter>();
+			TS4ProgressReporter progressReporter = new TS4ProgressReporter();
 			progress.ProgressChanged += ReportProgress;
 
 			// Index files to uncompress...
 			UncompressArchive uncompress = new UncompressArchive();
-			uncompress.IndexFilesToUncompress(browsePath);
+			await Task.Run(() => uncompress.IndexFilesToUncompress(browsePath, progress, progressReporter));
 
 			// Check if files are added...
 			if (uncompress.FilesToUncompressCounter != 0)
 			{
-				// Show indexed files in DataGrid...
-				foreach (FileInfo file in uncompress.FilesToUncompress)
-				{
-					// Create DataGrid output...
-					processViews.Add(new ProcessViewOutput
-					{
-						Package_Name = file.Name.Split('.')[0],
-						Package_Type = file.Extension,
-						Package_CreatedDate = file.CreationTime,
-						Package_EditedDate = file.LastWriteTime,
-					});
-
-					// Update DataGrid...
-					UpdateImportDataGridView(processViews);
-				}
-
 				// Show messagebox and get answer...
 				MessageBoxResult result = MessageBox.Show(
 						"Der blev fundet "
@@ -100,7 +87,7 @@ namespace TS4_Mod_Administration
 					try
 					{
 						// Uncompress the files...
-						await uncompress.UncompressArchiveFiles(progress);
+						await Task.Run(() => uncompress.UncompressArchiveFiles(progress, progressReporter));
 					}
 					catch (Exception ex)
 					{
@@ -117,6 +104,7 @@ namespace TS4_Mod_Administration
 		{
 			UpdateProgressBar1(e.ProgressPercentage);
 			UpdateProgressTextLabel(e.StatusMessage);
+			UpdateImportDataGridView(e.DataGridContent);
 		}
 
 		#endregion Import Mods Section

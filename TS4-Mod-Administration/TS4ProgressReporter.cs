@@ -10,6 +10,6 @@ namespace TS4_Mod_Administration
 	{
 		public int ProgressPercentage { get; set; } = 0;
 		public string StatusMessage { get; set; } = "Status:";
-		public ProcessViewOutput DataGridContent { get; set; } = new ProcessViewOutput();
+		public List<ProcessViewOutput> DataGridContent { get; set; } = new List<ProcessViewOutput>();
 	}
 }
