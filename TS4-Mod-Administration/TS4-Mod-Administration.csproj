@@ -86,7 +86,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModsImport.cs" />
+    <Compile Include="ModsImporter.cs" />
     <Compile Include="ModsIndexer.cs" />
     <Compile Include="ProcessViewOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

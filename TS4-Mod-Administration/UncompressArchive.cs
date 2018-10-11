@@ -12,6 +12,7 @@ namespace TS4_Mod_Administration
 	class UncompressArchive
 	{
 		#region Atributes Section
+
 		private List<FileInfo> filesToUncompress;
 		private List<ProcessViewOutput> gridViewOutput;
 		private int filesToUncompressCounter;
@@ -98,7 +99,8 @@ namespace TS4_Mod_Administration
 				foreach (FileInfo file in folder)
 				{
 					// Report progress back to GUI...
-					progressReporter.DataGridContent.Add(new ProcessViewOutput(file));
+					GridViewOutput.Add(new ProcessViewOutput(file));
+					progressReporter.DataGridContent = GridViewOutput;
 					progressReporter.StatusMessage = "Indexere: " + file.FullName;
 					progress.Report(progressReporter);
 
@@ -126,9 +128,12 @@ namespace TS4_Mod_Administration
 				// Run through the files and uncompress them...
 				foreach (var file in FilesToUncompress)
 				{
+					// Set the current counter for progress...
+					CurrentUncompressCounter++;
+
+					// Report progress to GUI...
 					progressReporter.StatusMessage = "Udpakker: " + file.FullName;
-					progressReporter.ProgressPercentage = (CurrentUncompressCounter * 100) / FilesToUncompressCounter;
-					progressReporter.DataGridContent.ElementAt(progressReporter.DataGridContent.IndexOf(new ProcessViewOutput(file))).Package_CanBeImported = "Udpakket";
+					progressReporter.ProgressPercentage = (CurrentUncompressCounter / FilesToUncompressCounter) * 100;
 					progress.Report(progressReporter);
 
 					// Open selected archive to extract...
@@ -146,8 +151,10 @@ namespace TS4_Mod_Administration
 						System.Threading.Thread.Sleep(1000);
 					}
 
-					// Set the current counter for progress...
-					CurrentUncompressCounter++;
+					// Report success progress...
+					GridViewOutput.ElementAt(FilesToUncompress.IndexOf(file)).Package_StatusMessage = "Udpakket";
+					progressReporter.DataGridContent = GridViewOutput;
+					progress.Report(progressReporter);
 				}
 			}
 

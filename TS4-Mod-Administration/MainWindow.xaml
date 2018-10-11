@@ -43,13 +43,13 @@
                         <Button x:Name="ImportModsButton" Content="Importer" Grid.Column="5" Margin="5" Height="20" IsEnabled="False" Click="ImportModsButton_Click" />
                     </Grid>
 
-                    <DataGrid x:Name="ModImportDataGrid" ItemsSource="{Binding IsAsync=True}" Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" AutoGenerateColumns="False" Margin="5,0,5,0" MinHeight="250" Grid.ColumnSpan="2" >
+                    <DataGrid x:Name="ModImportDataGrid" ItemsSource="{Binding IsAsync=True}" Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" AutoGenerateColumns="False" Margin="5,0,5,0" MinHeight="250" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Navn" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_Name}"/>
                             <DataGridTextColumn Header="Type" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_Type}"/>
                             <DataGridTextColumn Header="Oprettet" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_CreatedDate}"/>
                             <DataGridTextColumn Header="Redigeret" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_EditedDate}"/>
-                            <DataGridTextColumn Header="Accepteret" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_CanBeImported}" />
+                            <DataGridTextColumn Header="Status" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_StatusMessage}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -69,7 +69,7 @@
                         <Button x:Name="ConflictBrowseButton" Content="Gennemse" Grid.Column="2" Margin="5" Height="20" Click="ConflictBrowseButton_Click" />
                         <Button x:Name="ConflictScanButton" Content="Scan" Grid.Column="3" Margin="5" Height="20" IsEnabled="False" Click="ConflictScanButton_Click" />
                     </Grid>
-                    <DataGrid x:Name="PackageConflictDataGrid" ItemsSource="{Binding IsAsync=True}" Grid.Row="1" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Margin="5,0,5,0" MinHeight="250" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <DataGrid x:Name="PackageConflictDataGrid" ItemsSource="{Binding IsAsync=True}" Grid.Row="1" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Margin="5,0,5,0" MinHeight="250" VerticalAlignment="Stretch">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Navn" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_Name}"/>
                             <DataGridTextColumn Header="Type" Width="auto" IsReadOnly="True" Binding="{Binding Path=Package_Type}"/>

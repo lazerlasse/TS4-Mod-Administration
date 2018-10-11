@@ -16,7 +16,7 @@ namespace TS4_Mod_Administration
 		public string Package_ResourceType { get; set; }
 		public string Package_ResourceGroup { get; set; }
 		public string Package_ResourceInstance { get; set; }
-		public string Package_CanBeImported { get; set; }
+		public string Package_StatusMessage { get; set; }
 
 		public ProcessViewOutput()
 		{
