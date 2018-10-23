@@ -16,7 +16,6 @@ namespace TS4_Mod_Administration
 
 		// Attributes...
 		private string browsePath;
-		List<ProcessViewOutput> processViews = new List<ProcessViewOutput>();
 
 		// Initialize main window...
 		public MainWindow()
@@ -33,17 +32,13 @@ namespace TS4_Mod_Administration
 		private async void ImportModsButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Create new instance of progress reporter functions...
-			Progress<TS4ProgressReporter> importProgress = new Progress<TS4ProgressReporter>();
-			importProgress.ProgressChanged += ImportProgress_ProgressChanged;
-			TS4ProgressReporter importProgressReporter = new TS4ProgressReporter();
-
-			// Create new instance of ModsIndexer and run async...
-			ModsIndexer modsIndexer = new ModsIndexer();
-			await Task.Run(() => modsIndexer.IndexModsToImport(browsePath, importProgress, importProgressReporter));
+			Progress<TS4ProgressReporter> importerProgress = new Progress<TS4ProgressReporter>();
+			importerProgress.ProgressChanged += ImportProgress_ProgressChanged;
+			TS4ProgressReporter importerProgressReporter = new TS4ProgressReporter();
 
 			// Create new instance of ModsImporter and run async...
 			ModsImporter modsImporter = new ModsImporter();
-			await Task.Run(() => modsImporter.ImportMods(modsIndexer.ModsToImport, importProgress, importProgressReporter));
+			await Task.Run(() => modsImporter.ImportMods(ModsIndexer.Instance.ModsToImportList, importerProgress, importerProgressReporter));
 		}
 
 		private void ImportProgress_ProgressChanged(object sender, TS4ProgressReporter e)
@@ -53,44 +48,44 @@ namespace TS4_Mod_Administration
 			UpdateImportDataGridView(e.DataGridContent);
 
 			// Set ProgressBar procent or animation...
-			if (e.ProgressPercentage < 1)
-			{
-				ProgressBar1.IsIndeterminate = true;
-			}
-			else
+			ProgressBar1.IsIndeterminate = e.LoadingProgress;
+
+			if (e.LoadingProgress == false)
 			{
 				ProgressBar1.Value = e.ProgressPercentage;
 			}
 		}
 
 		// Import browse path button event handler...
-		private void ImportBrowseButton_Click(object sender, RoutedEventArgs e)
+		private async void ImportBrowseButton_Click(object sender, RoutedEventArgs e)
 		{
-			// Clear DataGrid...
-			processViews.Clear();
+			// Create instance of Progress Reporter and Progress Change delegation...
+			Progress<TS4ProgressReporter> importBrowserProgress = new Progress<TS4ProgressReporter>();
+			TS4ProgressReporter importBrowserProgressReporter = new TS4ProgressReporter();
+			importBrowserProgress.ProgressChanged += ImportBrowser_ProgressChanged;
 
 			// Get folder to import from...
 			browsePath = FolderBrowser();
 
-			// Set browse path text and enable import button...
+			// Set browse path text...
 			ImportSourcePatch.Text = browsePath;
-			ImportModsButton.IsEnabled = true;
 
 			// Index and handle archived files before importing mods...
-			HandleArchiveFilesAsync();
+			await Task.Run(() => HandleArchiveFilesAsync(importBrowserProgress, importBrowserProgressReporter));
+
+			// Index Mod files to import...
+			await Task.Run(() => ModsIndexer.Instance.IndexModsToImport(browsePath, importBrowserProgress, importBrowserProgressReporter));
+
+			// set progressbar indeterminate to false...
+			ProgressBar1.IsIndeterminate = false;
 		}
 
 		// Index and handle archive files before import...
-		private async void HandleArchiveFilesAsync()
+		private void HandleArchiveFilesAsync(Progress<TS4ProgressReporter> progress, TS4ProgressReporter progressReporter)
 		{
-			// Create instance of Progress Reporter and Progress Change delegation...
-			Progress<TS4ProgressReporter> uncompressProgress = new Progress<TS4ProgressReporter>();
-			TS4ProgressReporter uncompressProgressReporter = new TS4ProgressReporter();
-			uncompressProgress.ProgressChanged += Uncompress_ProgressChanged;
-
 			// Index files to uncompress...
 			UncompressArchive uncompress = new UncompressArchive();
-			await Task.Run(() => uncompress.IndexFilesToUncompress(browsePath, uncompressProgress, uncompressProgressReporter));
+			uncompress.IndexFilesToUncompress(browsePath, progress, progressReporter);
 
 			// Check if files are added...
 			if (uncompress.FilesToUncompressCounter != 0)
@@ -109,7 +104,7 @@ namespace TS4_Mod_Administration
 					try
 					{
 						// Uncompress the files...
-						await Task.Run(() => uncompress.UncompressArchiveFiles(uncompressProgress, uncompressProgressReporter));
+						uncompress.UncompressArchiveFiles(progress, progressReporter);
 
 						// Confirm unpacking succeded...
 						MessageBox.Show("Filerne blev udpakket med succes.", "Færdig", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -123,11 +118,17 @@ namespace TS4_Mod_Administration
 			}
 		}
 
-		private void Uncompress_ProgressChanged(object sender, TS4ProgressReporter e)
+		// ImportBrowser Progress Changed Event Handler...
+		private void ImportBrowser_ProgressChanged(object sender, TS4ProgressReporter e)
 		{
-			UpdateProgressBar1(e.ProgressPercentage);
 			UpdateProgressTextLabel(e.StatusMessage);
 			UpdateImportDataGridView(e.DataGridContent);
+			ProgressBar1.IsIndeterminate = e.LoadingProgress;
+
+			if (e.LoadingProgress == false)
+			{
+				ProgressBar1.Value = e.ProgressPercentage;
+			}
 		}
 
 		#endregion Import Mods Section
@@ -183,7 +184,7 @@ namespace TS4_Mod_Administration
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				// Get source patch and update patch textbox...
-				 return dialog.SelectedPath;
+				return dialog.SelectedPath;
 			}
 			else
 			{

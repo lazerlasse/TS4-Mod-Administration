@@ -7,90 +7,46 @@ using System.Threading.Tasks;
 
 namespace TS4_Mod_Administration
 {
-	class ModsIndexer
+	public sealed class ModsIndexer
 	{
-		#region Attribute Section
+		#region Attribute and Constructor Section
 
-		private List<FileInfo> ts4ModsList;
-		private List<FileInfo> ts4TrayModsList;
-		private List<FileInfo> ts4SciptModsList;
-		private List<FileInfo> nonModsFiles;
-		private List<FileInfo> modsToImport;
+		private static readonly ModsIndexer instance = new ModsIndexer();
+		public List<FileInfo> TS4ModsList { get; private set; } = new List<FileInfo>();
+		public List<FileInfo> TS4TrayModsList { get; private set; } = new List<FileInfo>();
+		public List<FileInfo> TS4ScriptModsList { get; private set; } = new List<FileInfo>();
+		public List<FileInfo> NotModFilesList { get; private set; } = new List<FileInfo>();
+		public List<FileInfo> ModsToImportList { get; private set; } = new List<FileInfo>();
+		private List<ProcessViewOutput> gridViewOutPut = new List<ProcessViewOutput>();
 
-		public List<FileInfo> Ts4ModsList
+		public static ModsIndexer Instance
 		{
 			get
 			{
-				return this.ts4ModsList;
-			}
-			private set
-			{
-				this.ts4ModsList = value;
+				return instance;
 			}
 		}
 
-		public List<FileInfo> Ts4TrayModsList
+		static ModsIndexer()
 		{
-			get
-			{
-				return this.ts4TrayModsList;
-			}
-			private set
-			{
-				this.ts4TrayModsList = value;
-			}
+
 		}
 
-		public List<FileInfo> Ts4ScriptModsList
+		private ModsIndexer()
 		{
-			get
-			{
-				return this.ts4SciptModsList;
-			}
-			private set
-			{
-				this.ts4SciptModsList = value;
-			}
+
 		}
 
-		public List<FileInfo> NonModsFiles
-		{
-			get
-			{
-				return this.nonModsFiles;
-			}
-			private set
-			{
-				this.nonModsFiles = value;
-			}
-		}
-
-		public List<FileInfo> ModsToImport
-		{
-			get
-			{
-				return this.modsToImport;
-			}
-			private set
-			{
-				this.modsToImport = value;
-			}
-		}
-
-		#endregion Attribute Section
-
-		public ModsIndexer()
-		{
-			
-		}
+		#endregion Attribute and Constructeri Section
 
 		public void IndexModFiles(string sourcePath, IProgress<TS4ProgressReporter> progressReporter, TS4ProgressReporter progress)
 		{
 			// Initialize List<FileInfo> before indexing...
-			Ts4ModsList = new List<FileInfo>();
-			Ts4TrayModsList = new List<FileInfo>();
-			Ts4ScriptModsList = new List<FileInfo>();
-			nonModsFiles = new List<FileInfo>();
+			TS4ModsList.Clear();
+			TS4TrayModsList.Clear();
+			TS4ScriptModsList.Clear();
+			NotModFilesList.Clear();
+			gridViewOutPut.Clear();
 
 			// Index The Sims 4 mods folder for conflict scan...
 			try
@@ -105,31 +61,33 @@ namespace TS4_Mod_Administration
 					{
 						// Report progress...
 						progress.StatusMessage = "Indexer: " + file.Name;
+						gridViewOutPut.Add(new ProcessViewOutput(file));
+						progress.DataGridContent = gridViewOutPut;
 						progress.ProgressPercentage = 0;
 						progressReporter.Report(progress);
 
 						// Add Mods files...
 						if (file.Extension == ".sims3pack" || file.Extension == ".package")
 						{
-							Ts4ModsList.Add(file);
+							TS4ModsList.Add(file);
 						}
 
 						// Add TS4 Script files...
 						else if (file.Extension == ".ts4script")
 						{
-							Ts4ScriptModsList.Add(file);
+							TS4ScriptModsList.Add(file);
 						}
 
 						// Add mod files to Tray folder...
 						else if (file.Extension == ".blueprint" || file.Extension == ".bpi" || file.Extension == ".trayitem")
 						{
-							Ts4TrayModsList.Add(file);
+							TS4TrayModsList.Add(file);
 						}
 
 						// Add alle non *Sims files...
 						else
 						{
-							nonModsFiles.Add(file);
+							NotModFilesList.Add(file);
 						}
 					}
 				}
@@ -138,13 +96,18 @@ namespace TS4_Mod_Administration
 			{
 				throw ex;
 			}
+
+			// Progress reporting finish...
+			progress.LoadingProgress = false;
+			progressReporter.Report(progress);
 		}
 
 		public void IndexModsToImport(string sourcePath, IProgress<TS4ProgressReporter> progressReporter, TS4ProgressReporter progress)
 		{
 			// Initialize List<FileInfo> before indexing...
-			NonModsFiles = new List<FileInfo>();
-			ModsToImport = new List<FileInfo>();
+			NotModFilesList.Clear();
+			ModsToImportList.Clear();
+			gridViewOutPut.Clear();
 
 			// Index files to import from selected path...
 			try
@@ -159,19 +122,21 @@ namespace TS4_Mod_Administration
 					{
 						// Report progress...
 						progress.StatusMessage = "Indexer: " + file.Name;
-						progress.ProgressPercentage = 0;
+						gridViewOutPut.Add(new ProcessViewOutput(file));
+						progress.DataGridContent = gridViewOutPut;
+						progress.LoadingProgress = true;
 						progressReporter.Report(progress);
-
+						
 						// Add all accepted Mod and tray files...
 						if (file.Extension == ".sims3pack" || file.Extension == ".package" || file.Extension == ".ts4script" || file.Extension == ".blueprint" || file.Extension == ".bpi" || file.Extension == ".trayitem")
 						{
-							Ts4ModsList.Add(file);
+							TS4ModsList.Add(file);
 						}
 
 						// Add alle not accepted *Sims files...
 						else
 						{
-							nonModsFiles.Add(file);
+							NotModFilesList.Add(file);
 						}
 					}
 				}
@@ -180,6 +145,10 @@ namespace TS4_Mod_Administration
 			{
 				throw ex;
 			}
+
+			// Progress reporting finish...
+			progress.LoadingProgress = false;
+			progressReporter.Report(progress);
 		}
 	}
 }

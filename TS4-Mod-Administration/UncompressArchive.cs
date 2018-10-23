@@ -102,6 +102,7 @@ namespace TS4_Mod_Administration
 					GridViewOutput.Add(new ProcessViewOutput(file));
 					progressReporter.DataGridContent = GridViewOutput;
 					progressReporter.StatusMessage = "Indexere: " + file.FullName;
+					progressReporter.LoadingProgress = true;
 					progress.Report(progressReporter);
 
 					if ((file.Attributes & FileAttributes.Directory) != 0) continue;
@@ -114,6 +115,10 @@ namespace TS4_Mod_Administration
 					}
 				}
 			}
+
+			// Progress reporting finish...
+			progressReporter.LoadingProgress = false;
+			progress.Report(progressReporter);
 		}
 
 		// Uncompress archive files...
@@ -133,7 +138,7 @@ namespace TS4_Mod_Administration
 
 					// Report progress to GUI...
 					progressReporter.StatusMessage = "Udpakker: " + file.FullName;
-					progressReporter.ProgressPercentage = (CurrentUncompressCounter / FilesToUncompressCounter) * 100;
+					progressReporter.ProgressPercentage = ((double)CurrentUncompressCounter / (double)FilesToUncompressCounter) * 100;
 					progress.Report(progressReporter);
 
 					// Open selected archive to extract...
@@ -162,6 +167,11 @@ namespace TS4_Mod_Administration
 			{
 				throw ex;
 			}
+
+			// Reset progressbar and status text...
+			progressReporter.StatusMessage = "Klar";
+			progressReporter.ProgressPercentage = 0;
+			progress.Report(progressReporter);
 		}
 
 		#endregion Method Section

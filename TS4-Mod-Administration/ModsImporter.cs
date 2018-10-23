@@ -11,6 +11,7 @@ namespace TS4_Mod_Administration
     {
 		private int importedCounter;
 		private int filesToImportCount;
+		private int currentIndexToEdit;
 
 		public ModsImporter()
 		{
@@ -29,6 +30,9 @@ namespace TS4_Mod_Administration
 				// Run through the files and move them...
 				foreach (FileInfo modFile in modFilesToImport)
 				{
+					// Set current index counter...
+					currentIndexToEdit = modFilesToImport.IndexOf(modFile);
+
 					// Report the progress back to GUI...
 					progress.StatusMessage = "Importerer: " + modFile.Name;
 					progressReporter.Report(progress);
@@ -84,8 +88,8 @@ namespace TS4_Mod_Administration
 					}
 
 					// Report success progress...
-					progress.ProgressPercentage = (importedCounter * 100) / filesToImportCount;
-					progress.DataGridContent.ElementAt(modFilesToImport.IndexOf(modFile)).Package_StatusMessage = "Importeret";
+					progress.ProgressPercentage = (importedCounter / filesToImportCount) * 100;
+					progress.DataGridContent.ElementAt(currentIndexToEdit).Package_StatusMessage = "Importeret";
 					progressReporter.Report(progress);
 				}
 			}
