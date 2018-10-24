@@ -14,7 +14,6 @@ namespace TS4_Mod_Administration
 		#region Atributes Section
 
 		private List<FileInfo> filesToUncompress;
-		private List<ProcessViewOutput> gridViewOutput;
 		private int filesToUncompressCounter;
 		private int currentUncompressCounter;
 
@@ -27,18 +26,6 @@ namespace TS4_Mod_Administration
 			private set
 			{
 				this.filesToUncompress = value;
-			}
-		}
-
-		public List<ProcessViewOutput> GridViewOutput
-		{
-			get
-			{
-				return this.gridViewOutput;
-			}
-			private set
-			{
-				this.gridViewOutput = value;
 			}
 		}
 
@@ -72,7 +59,6 @@ namespace TS4_Mod_Administration
 		public UncompressArchive()
 		{
 			FilesToUncompress = new List<FileInfo>();
-			GridViewOutput = new List<ProcessViewOutput>();
 		}
 
 		#endregion Constructer Section
@@ -84,7 +70,7 @@ namespace TS4_Mod_Administration
 		{
 			// Clear files list and GridViewOutput before scan...
 			FilesToUncompress.Clear();
-			GridViewOutput.Clear();
+			progressReporter.DataGridContent.Clear();
 
 			// Set the file extensions to search for...
 			string[] ArchiveExtensions = { "*.zip", "*.rar", "*.gzip", "*.7z" };
@@ -99,8 +85,7 @@ namespace TS4_Mod_Administration
 				foreach (FileInfo file in folder)
 				{
 					// Report progress back to GUI...
-					GridViewOutput.Add(new ProcessViewOutput(file));
-					progressReporter.DataGridContent = GridViewOutput;
+					progressReporter.DataGridContent.Add(new ProcessViewOutput(file));
 					progressReporter.StatusMessage = "Indexere: " + file.FullName;
 					progressReporter.LoadingProgress = true;
 					progress.Report(progressReporter);
@@ -157,8 +142,7 @@ namespace TS4_Mod_Administration
 					}
 
 					// Report success progress...
-					GridViewOutput.ElementAt(FilesToUncompress.IndexOf(file)).Package_StatusMessage = "Udpakket";
-					progressReporter.DataGridContent = GridViewOutput;
+					progressReporter.DataGridContent.ElementAt(FilesToUncompress.IndexOf(file)).Package_StatusMessage = "Udpakket";
 					progress.Report(progressReporter);
 				}
 			}

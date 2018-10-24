@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace TS4_Mod_Administration
 
 		// Attributes...
 		private string browsePath;
+		private ObservableCollection<ProcessViewOutput> dataGridOutput = new ObservableCollection<ProcessViewOutput>();
 
 		// Initialize main window...
 		public MainWindow()
@@ -44,8 +46,9 @@ namespace TS4_Mod_Administration
 		private void ImportProgress_ProgressChanged(object sender, TS4ProgressReporter e)
 		{
 			// Set progress text label and DataGrid...
-			UpdateProgressTextLabel(e.StatusMessage);
-			UpdateImportDataGridView(e.DataGridContent);
+			ProgressStatusText.Content = e.StatusMessage;
+			dataGridOutput = new ObservableCollection<ProcessViewOutput>(e.DataGridContent);
+			ModImportDataGrid.ItemsSource = dataGridOutput;
 
 			// Set ProgressBar procent or animation...
 			ProgressBar1.IsIndeterminate = e.LoadingProgress;
@@ -121,8 +124,9 @@ namespace TS4_Mod_Administration
 		// ImportBrowser Progress Changed Event Handler...
 		private void ImportBrowser_ProgressChanged(object sender, TS4ProgressReporter e)
 		{
-			UpdateProgressTextLabel(e.StatusMessage);
-			UpdateImportDataGridView(e.DataGridContent);
+			ProgressStatusText.Content = e.StatusMessage;
+			dataGridOutput = new ObservableCollection<ProcessViewOutput>(e.DataGridContent);
+			ModImportDataGrid.ItemsSource = dataGridOutput;
 			ProgressBar1.IsIndeterminate = e.LoadingProgress;
 
 			if (e.LoadingProgress == false)
@@ -152,22 +156,30 @@ namespace TS4_Mod_Administration
 		#region Update GUI Text, Datagrid and Progressbar.
 
 		// Update log viewer text.
-		private void UpdateImportDataGridView(List<ProcessViewOutput> processOutput)
+		private void UpdateImportDataGridView(ProcessViewOutput processOutput)
 		{
-			var bindingList = new BindingList<ProcessViewOutput>(processOutput);
-			ModImportDataGrid.ItemsSource = bindingList;
+			try
+			{
+				//var bindingList = new BindingList<ProcessViewOutput>(processOutput);
+				if (dataGridOutput.Contains(processOutput))
+				{
+					int index = dataGridOutput.IndexOf(processOutput);
+					dataGridOutput.Remove(processOutput);
+					dataGridOutput.Insert(index, processOutput);
+				}
+
+				ModImportDataGrid.ItemsSource = dataGridOutput;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Hov!!");
+			}
 		}
 
-		// Update ProgressBar1...
-		private void UpdateProgressBar1(double Value)
+		// Clear DataGridView...
+		private void ClearImportDataGridView()
 		{
-			ProgressBar1.Value = Value;
-		}
-
-		// Update Progress Text Label...
-		private void UpdateProgressTextLabel(string ProgressText)
-		{
-			ProgressTextBox.Content = ProgressText;
+			ModImportDataGrid.ItemsSource = null;
 		}
 
 		#endregion Update GUI Text, Datagrid and Progressbar.

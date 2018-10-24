@@ -17,7 +17,6 @@ namespace TS4_Mod_Administration
 		public List<FileInfo> TS4ScriptModsList { get; private set; } = new List<FileInfo>();
 		public List<FileInfo> NotModFilesList { get; private set; } = new List<FileInfo>();
 		public List<FileInfo> ModsToImportList { get; private set; } = new List<FileInfo>();
-		private List<ProcessViewOutput> gridViewOutPut = new List<ProcessViewOutput>();
 
 		public static ModsIndexer Instance
 		{
@@ -46,7 +45,7 @@ namespace TS4_Mod_Administration
 			TS4TrayModsList.Clear();
 			TS4ScriptModsList.Clear();
 			NotModFilesList.Clear();
-			gridViewOutPut.Clear();
+			progress.DataGridContent.Clear();
 
 			// Index The Sims 4 mods folder for conflict scan...
 			try
@@ -61,8 +60,7 @@ namespace TS4_Mod_Administration
 					{
 						// Report progress...
 						progress.StatusMessage = "Indexer: " + file.Name;
-						gridViewOutPut.Add(new ProcessViewOutput(file));
-						progress.DataGridContent = gridViewOutPut;
+						progress.DataGridContent.Add(new ProcessViewOutput(file));
 						progress.ProgressPercentage = 0;
 						progressReporter.Report(progress);
 
@@ -99,6 +97,7 @@ namespace TS4_Mod_Administration
 
 			// Progress reporting finish...
 			progress.LoadingProgress = false;
+			progress.StatusMessage = "Klar";
 			progressReporter.Report(progress);
 		}
 
@@ -107,7 +106,7 @@ namespace TS4_Mod_Administration
 			// Initialize List<FileInfo> before indexing...
 			NotModFilesList.Clear();
 			ModsToImportList.Clear();
-			gridViewOutPut.Clear();
+			progress.DataGridContent.Clear();
 
 			// Index files to import from selected path...
 			try
@@ -122,8 +121,7 @@ namespace TS4_Mod_Administration
 					{
 						// Report progress...
 						progress.StatusMessage = "Indexer: " + file.Name;
-						gridViewOutPut.Add(new ProcessViewOutput(file));
-						progress.DataGridContent = gridViewOutPut;
+						progress.DataGridContent.Add(new ProcessViewOutput(file));
 						progress.LoadingProgress = true;
 						progressReporter.Report(progress);
 						
@@ -148,6 +146,7 @@ namespace TS4_Mod_Administration
 
 			// Progress reporting finish...
 			progress.LoadingProgress = false;
+			progress.StatusMessage = "Klar";
 			progressReporter.Report(progress);
 		}
 	}
